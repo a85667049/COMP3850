@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1 maximum-scale=2, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-title" content="Add to Home">
+		<meta name="format-detection" content="telephone=no">
+		<meta http-equiv="x-rim-auto-match" content="none">
+		<title>Genesis Care</title>
+		<meta name="keywords" content="Genesis Care	- Medication identifier">
+		<meta name="description" content="Genesis Care	- Medication identifier">
+		<meta name="Copyright" content="Genesis Care	- Medication identifier">
+		<meta name="author" content="Genesis Care	- Medication identifier">
+
+
+		<link href="css/publi.css" rel="stylesheet" type="text/css">
+		<link href="css/style.css" rel="stylesheet" type="text/css">
+		<link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+		<!--[if lt IE 9]>
+			<script src="js/html5.js"></script>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+	
+		
+		<header class="acc_head">
+			<div class="clearfix">
+				<h1 class="tc">Genesis Care	- Medication identifier</h1>
+			
+			</div>
+
+		</header>
+		<section class="acc_apply">
+			<ul>
+				<li class="clearfix">
+					<label class="tl">Patient name ：</label>
+					<input autocomplete="off" placeholder="Please enter the patient's name" class="" type="text" />
+				</li>
+				<li class="clearfix">
+					<label class="tl acc_five"> Date of birth：</label>
+					<input autocomplete="off" placeholder="Please enter the Date of birth" class="" type="text" />
+				</li>
+				
+				<li class="clearfix" >
+					<label class="tl acc_four fl">Medicine photos：</label>
+				</li>
+				<li style="border-top: 0; margin-bottom: 60px;">
+					<div class="acc_img">
+						<p class="tc">example</p>
+						<div id="sss">
+							<a href="javascript:;" id="preview_img0" data-source="" >
+								<img class="acc_imgin" src="img/panadol.jpg" id="img0">
+							</a>
+						</div>
+
+						<div id ="thumbnail-gallery-wrapper">
+							<div id="thumbnail-gallery">
+							</div>
+						</div>
+
+						<div class="acc_sc">
+							<a href="javascript:;" class="tc acc_scicon">Select Images</a>
+							<input type="file" name="file0" id="file0" multiple class="ph08" />
+
+						</div>
+						<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 5M</p>
+					</div>
+				</li>
+				<li class="clearfix">
+					<label class="tl acc_five">Frequency and dosage：</label>
+					<textarea  autocomplete="off" placeholder="if you do not have current printed list of your medications from your GP, Please list current medications and dosage(if known)." class="desc" type="text" style="Height:100px; width:99%;"  ></textarea>
+				</li>
+				
+				</ul>
+		</section>
+		<footer class="acc_foot clearfix">
+	
+			<a href="#" class="fl tc acc_sure">Upload</a>
+		</footer>
+		<!--Pop-up layer-->
+		<article id="tip">
+			<div class="pack">
+				<h1 class="tc">Submitted successfully</h1>
+				<p class="tc"></p>
+				<a href="#">Yes</a>
+			</div>
+		</article>
+		<!-- Some libraries to be used on the website -->
+		<script src="js/jquery1.8.3.min.js"></script>
+		<script src="js/jquery.fancybox.min.js"></script>
+		<script src="js/script.js"></script>
+		<script type="text/javascript">
+		
+			$(function() {
+				/*document.documentElement.style.fontSize=document.documentElement.clientWidth*12/320+'px';*/
+				$(window).on("load", function() {
+						$("#loading").fadeOut();
+					})
+					// ========================================Floating layer control
+				$("#tip .pack a").on("click", function() {
+					$("#tip").fadeOut()
+					window.location = "index.html";
+					return false;
+				})
+
+				function alerths(str) {
+					$("#tip").fadeIn()
+					$("#tip .pack p").html(str)
+					return false;
+				}
+				$(".acc_sure").on("click", function() {
+					alerths("Our staff will record these medicines")
+					return flase;
+				})
+			})
+		</script>
+	</body>
+
+</html>
