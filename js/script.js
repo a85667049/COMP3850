@@ -1,11 +1,10 @@
 // handle onChange events on image uploader
 $(function(){
+    let files
+
     $("#file0").change(function() {
 
-        // format error handling here
-        // ...... 
-
-        let files = this.files 
+        files = this.files 
         console.log(files)
 
         if (files) {
@@ -14,54 +13,57 @@ $(function(){
 
             for(let i=0; i<files.length; i++){
 
-                var objUrl = getObjectURL(files[i]);
-                console.log("objUrl = " + objUrl);
-                if (objUrl) {
-                    
-                    // create an img wrapper
-                    let div = document.createElement("div")
-                    div.className = "tb-img-wrapper"
-                    // create an img elem
-                    let img = document.createElement('img')
-                    $(img).attr("src", objUrl)
+                // format error handling here
+                let acceptable_formats = ['jpeg', 'jpg', 'png']
+                let suffix = files[i].name.substring(files[i].name.lastIndexOf('.')+1)
 
-                    // insert img to the wrapper
-                    div.insertAdjacentElement('beforeend', img)
+                if(acceptable_formats.includes(suffix.toLowerCase())){
 
-                    // append the img wrapper to the gallery div
-                    gallery.append(div)
+                        let objUrl = getObjectURL(files[i])
 
-                    // add click event to each thumbnail wrapper
-                    $(div).click(function(e) {
-
-                        let objUrl = $(this).children()[0].src
-
-                        $('#img0').attr("src", objUrl);
-
+                        if (objUrl) {
+                            
+                            // create an img wrapper
+                            let div = document.createElement("div")
+                            div.className = "tb-img-wrapper"
+                            // create an img elem
+                            let img = document.createElement('img')
+                            $(img).attr("src", objUrl)
+        
+                            // insert img to the wrapper
+                            div.insertAdjacentElement('beforeend', img)
+        
+                            // append the img wrapper to the gallery div
+                            gallery.append(div)
+        
+                            // add click event to each thumbnail wrapper
+                            $(div).click(function(e) {
+        
+                                let objUrl = $(this).children()[0].src
+        
+                                $('#img0').attr("src", objUrl);
+        
+                                
+                                $('#preview_img0').data("source", objUrl)
                         
-                        $('#preview_img0').data("source", objUrl)
-                        
-                        console.log( '#preview_img0' + $('#preview_img0').data("source") )
-                    });
+                            })
 
-                } else {
-                    //Under IE, use filters
-                    this.select();
-                    var imgSrc = document.selection.createRange().text;
-                    var localImagId = document.getElementById("sss");
-            
+                            // add thumbnail gallery wrapper styles 
+                            $('#thumbnail-gallery-wrapper').css({
+                                overflowX: "scroll",
+                                position: "relative",
+                                height: 120           
+                            })        
+                        }
+
+                }else{
+                    alert('Only jpeg, jpg and png format of files are allowed!')
                 }
             }
 
-            // add thumbnail gallery wrapper styles 
-            $('#thumbnail-gallery-wrapper').css({
-                overflowX: "scroll",
-                position: "relative",
-                height: 120           
-            })
-
         }
     });
+
     //Create a url that can access the file
     function getObjectURL(file) {
         var url = null;
@@ -72,7 +74,7 @@ $(function(){
         } else if (window.webkitURL != undefined) { // webkit or chrome
             url = window.webkitURL.createObjectURL(file);
         }
-        return url;
+        return url
     }
 
     // preview link
@@ -85,8 +87,70 @@ $(function(){
         if(objURL==="")
             objURL = $('#preview_img0').children()[0].src
         
-        $.fancybox.open(`<img src=${objURL} >`)
+        $.fancybox.open(`<img src=${objURL} width="500" max-height="500">`)
         
+
+    })
+
+    // upload button click event 
+    const alerths = (str) => {
+        $("#tip").fadeIn()
+        $("#tip .pack p").html(str)
+        return false;
+    }
+
+    $(".acc_sure").on("click", (e) => {
+        e.preventDefault()
+
+        // sending ajax request
+        let msg = $('.desc').val()
+
+        if(msg!==""){
+
+            let request = new XMLHttpRequest()
+            
+            // url needs to be changed after uploading files onto server 
+            request.open("POST", "http://localhost/projects/Test2/server/upload.php")
+
+            // collect all the form data 
+            let form = document.querySelector('#patient-form')
+            let formData = new FormData(form)
+
+            // get current epoch time
+            let now = Math.floor(Date.parse(new Date())/1000.0)
+            formData.append("timestamp", now) 
+            request.send(formData)
+            
+            request.onreadystatechange = () => {
+                // if the ajax request has been completed and http request status has succeeded
+                if( request.readyState == 4){
+
+                    // clear all the inputs 
+                    $('input').val('')
+                    $('textarea').val('')
+
+                    // cancel url reference to the image files
+                    let imgs = $('.tb-img-wrapper img')
+                    for(let i = 0; i< imgs.length; i++){
+                        URL.revokeObjectURL(imgs[i].src)  
+                        // remove thumnail wrappers
+                        $(this).parent().remove()
+                    }
+                    $('#thumbnail-gallery-wrapper').css({
+                        height: 0           
+                    }) 
+                    alerths(request.responseText)
+                }
+            }
+
+            // pop up the message box
+            alerths("Your record is being uploaded... Please don't refresh the window.")
+
+        }else{
+            alerths("Your text message cannot be empty!")
+        }
+        
+
 
     })
 })
