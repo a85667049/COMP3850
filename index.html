@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1 maximum-scale=2, user-scalable=no">
@@ -36,47 +35,51 @@
 
 		</header>
 		<section class="acc_apply">
-			<ul>
-				<li class="clearfix">
-					<label class="tl">Patient name ：</label>
-					<input autocomplete="off" placeholder="Please enter the patient's name" class="" type="text" />
-				</li>
-				<li class="clearfix">
-					<label class="tl acc_five"> Date of birth：</label>
-					<input autocomplete="off" placeholder="Please enter the Date of birth" class="" type="text" />
-				</li>
-				
-				<li class="clearfix" >
-					<label class="tl acc_four fl">Medicine photos：</label>
-				</li>
-				<li style="border-top: 0; margin-bottom: 60px;">
-					<div class="acc_img">
-						<p class="tc">example</p>
-						<div id="sss">
-							<a href="javascript:;" id="preview_img0" data-source="" >
-								<img class="acc_imgin" src="img/panadol.jpg" id="img0">
-							</a>
-						</div>
-
-						<div id ="thumbnail-gallery-wrapper">
-							<div id="thumbnail-gallery">
+			<form id="patient-form">
+				<ul>
+					<li class="clearfix">
+						<label class="tl">Patient name ：</label>
+						<input type="hidden" name="user_id" value="1" />
+						<input autocomplete="off" placeholder="Please enter the patient's name" type="text" value="boblooba" />
+					</li>
+					<li class="clearfix">
+						<label class="tl acc_five"> Date of birth：</label>
+						<input autocomplete="off" placeholder="Please enter the Date of birth" type="text" value="1966-11-05" />
+					</li>
+					
+					<li class="clearfix" >
+						<label class="tl acc_four fl">Medicine photos：</label>
+					</li>
+					<li style="border-top: 0; margin-bottom: 60px;">
+						<div class="acc_img">
+							<p class="tc">example</p>
+							<div id="sss">
+								<a href="javascript:;" id="preview_img0" data-source="" >
+									<img class="acc_imgin" src="img/panadol.jpg" id="img0">
+								</a>
 							</div>
-						</div>
 
-						<div class="acc_sc">
-							<a href="javascript:;" class="tc acc_scicon">Select Images</a>
-							<input type="file" name="file0" id="file0" multiple class="ph08" />
+							<div id ="thumbnail-gallery-wrapper">
+								<div id="thumbnail-gallery">
+								</div>
+							</div>
 
+							<div class="acc_sc">
+								<a href="javascript:;" class="tc acc_scicon">Select Images</a>
+								<input type="file" name="file0[]" id="file0" multiple class="ph08" />
+
+							</div>
+							<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 5M</p>
 						</div>
-						<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 5M</p>
-					</div>
-				</li>
-				<li class="clearfix">
-					<label class="tl acc_five">Frequency and dosage：</label>
-					<textarea  autocomplete="off" placeholder="if you do not have current printed list of your medications from your GP, Please list current medications and dosage(if known)." class="desc" type="text" style="Height:100px; width:99%;"  ></textarea>
-				</li>
-				
+					</li>
+					<li class="clearfix">
+						<label class="tl acc_five">Frequency and dosage：</label>
+						<textarea  autocomplete="off" placeholder="if you do not have current printed list of your medications from your GP, Please list current medications and dosage(if known)." class="desc" name="desc" type="text" style="Height:100px; width:99%;" 
+						></textarea>
+					</li>
+					
 				</ul>
+			</form>
 		</section>
 		<footer class="acc_foot clearfix">
 	
@@ -104,18 +107,7 @@
 					// ========================================Floating layer control
 				$("#tip .pack a").on("click", function() {
 					$("#tip").fadeOut()
-					window.location = "index.html";
 					return false;
-				})
-
-				function alerths(str) {
-					$("#tip").fadeIn()
-					$("#tip .pack p").html(str)
-					return false;
-				}
-				$(".acc_sure").on("click", function() {
-					alerths("Our staff will record these medicines")
-					return flase;
 				})
 			})
 		</script>
