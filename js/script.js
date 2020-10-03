@@ -110,7 +110,7 @@ $(function(){
             let request = new XMLHttpRequest()
             
             // url needs to be changed after uploading files onto server 
-            request.open("POST", "http://localhost/projects/Test2/server/upload.php")
+            request.open("POST", "http://localhost/projects/COMP3850/server/upload.php")
 
             // collect all the form data 
             let form = document.querySelector('#patient-form')
