@@ -20,6 +20,10 @@
                
                if($mysqli -> query($sql) === TRUE){
                     // copy images to the file system
+                    // if uploads directory doesn't exist. Make one.
+                    if(!file_exists("./uploads")){
+                        mkdir("./uploads/", 0700);
+                    }
                     // make directory name format: {patient_name}-{timestamp}
                     $uploads_dir = "./uploads/".$patient_name."-".$_POST["timestamp"];
                     mkdir($uploads_dir, 0700);

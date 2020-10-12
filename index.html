@@ -69,7 +69,7 @@
 								<input type="file" name="file0[]" id="file0" multiple class="ph08" />
 
 							</div>
-							<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 2M</p>
+							<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 5M</p>
 						</div>
 					</li>
 					<li class="clearfix">
@@ -81,7 +81,7 @@
 				</ul>
 			</form>
 		</section>
-		<footer class="acc_foot clearfix" >
+		<footer class="acc_foot clearfix">
 	
 			<a href="#" class="fl tc acc_sure">Upload</a>
 		</footer>
@@ -106,7 +106,9 @@
 					})
 					// ========================================Floating layer control
 				$("#tip .pack a").on("click", function() {
+					
 					$("#tip").fadeOut()
+					window.location.reload(true)
 					return false;
 				})
 			})
