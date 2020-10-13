@@ -1,17 +1,18 @@
 // handle onChange events on image uploader
 $(function(){
-    let files
+    let allFiles = []
 
     $("#file0").change(function() {
 
-        files = this.files 
-        console.log(files)
+        let files = this.files 
 
         if (files) {
 
             let gallery = $('#thumbnail-gallery')
 
             for(let i=0; i<files.length; i++){
+
+                allFiles.push(files[i])
 
                 // format error handling here
                 let acceptable_formats = ['jpeg', 'jpg', 'png']
@@ -99,6 +100,7 @@ $(function(){
         return false;
     }
 
+
     $(".acc_sure").on("click", (e) => {
         e.preventDefault()
 
@@ -119,6 +121,15 @@ $(function(){
             // get current epoch time
             let now = Math.floor(Date.parse(new Date())/1000.0)
             formData.append("timestamp", now) 
+
+            // append all the uploaded files to form data
+            for(let i=0; i < allFiles.length; i++){
+                formData.append("file1[]", allFiles[i])
+            }
+
+            // delete form data named file0[] 
+            formData.delete("file0[]")
+            
             request.send(formData)
             
             request.onreadystatechange = () => {
@@ -128,13 +139,14 @@ $(function(){
                     // clear all the inputs 
                     $('input').val('')
                     $('textarea').val('')
+                    allFiles = []
 
                     // cancel url reference to the image files
                     let imgs = $('.tb-img-wrapper img')
                     for(let i = 0; i< imgs.length; i++){
                         URL.revokeObjectURL(imgs[i].src)  
                         // remove thumnail wrappers
-                        $(this).parent().remove()
+                        $(imgs[i]).parent().remove()
                     }
                     $('#thumbnail-gallery-wrapper').css({
                         height: 0           

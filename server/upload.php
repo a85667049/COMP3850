@@ -28,10 +28,10 @@
                     $uploads_dir = "./uploads/".$patient_name."-".$_POST["timestamp"];
                     mkdir($uploads_dir, 0700);
                     // echo "\n". $uploads_dir;
-                    foreach ($_FILES["file0"]["error"] as $key => $error) {
+                    foreach ($_FILES["file1"]["error"] as $key => $error) {
                         if ($error == UPLOAD_ERR_OK) {
-                            $tmp_name = $_FILES["file0"]["tmp_name"][$key];
-                            $name = basename($_FILES["file0"]["name"][$key]);
+                            $tmp_name = $_FILES["file1"]["tmp_name"][$key];
+                            $name = basename($_FILES["file1"]["name"][$key]);
                             move_uploaded_file($tmp_name, "$uploads_dir/$name");
                         }
                     } 
