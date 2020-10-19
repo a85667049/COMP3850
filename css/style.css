@@ -243,3 +243,18 @@ section{
 	max-height: 100%;
 	object-fit: cover;
 }
+.tb-img-wrapper{
+	position: relative;
+}
+.tb-img-wrapper .close-btn{
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255,255,255,0.9);
+    padding: 5px;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+	line-height: 10px;
+	cursor: pointer;
+}

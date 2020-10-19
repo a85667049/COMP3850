@@ -30,8 +30,16 @@ $(function(){
                             // create an img elem
                             let img = document.createElement('img')
                             $(img).attr("src", objUrl)
-        
-                            // insert img to the wrapper
+
+                            //create a close btn
+                            let closeBtn = document.createElement('span')
+                            closeBtn.className = "close-btn"
+                            closeBtn.textContent = "X"
+                            
+                            // insert close btn into the wrapper
+                            div.insertAdjacentElement('afterbegin', closeBtn)
+
+                            // insert img into the wrapper
                             div.insertAdjacentElement('beforeend', img)
         
                             // append the img wrapper to the gallery div
@@ -40,14 +48,35 @@ $(function(){
                             // add click event to each thumbnail wrapper
                             $(div).click(function(e) {
         
-                                let objUrl = $(this).children()[0].src
-        
-                                $('#img0').attr("src", objUrl);
+                                                           
+                                let objUrl = $(this).children()[1].src
+
+                                console.log('clicked', div)
         
                                 
                                 $('#preview_img0').data("source", objUrl)
                         
                             })
+
+                            $(closeBtn).click( (e)=>{
+
+                                // remove the image wrapper
+                                $(e.target).parent().remove()
+
+                                // remove this image file from the array
+                                allFiles = allFiles.filter( f => f !== files[i] )
+
+                                if(allFiles.length === 0){
+                                    $('#thumbnail-gallery-wrapper').css({
+                                        height: 0           
+                                    })    
+                                }
+                                
+                            })
+
+                         
+
+                         // add thumbnail gallery wrapper styles 
 
                             // add thumbnail gallery wrapper styles 
                             $('#thumbnail-gallery-wrapper').css({
