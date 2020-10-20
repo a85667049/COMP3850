@@ -218,14 +218,6 @@ section{
 	margin-bottom: 10px;
 }
 
-/*  thumbnail gallery styles */
-/*
-#thumbnail-gallery-wrapper{
-	overflow-x: scroll;
-    position: relative;
-    height: 120px;
-}
-*/
 
 #thumbnail-gallery{
 	position: absolute;
@@ -257,4 +249,11 @@ section{
     height: 10px;
 	line-height: 10px;
 	cursor: pointer;
+}
+
+#staff{
+	float:right;
+	margin-bottom:5%;
+	margin-top:2%;
+	color:grey;
 }
