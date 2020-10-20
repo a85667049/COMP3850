@@ -14,10 +14,10 @@
 		<meta name="Copyright" content="Genesis Care	- Medication identifier">
 		<meta name="author" content="Genesis Care	- Medication identifier">
 
-
+		<link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
 		<link href="css/publi.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet" type="text/css">
-		<link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css">
+		
 		<!--[if lt IE 9]>
 			<script src="js/html5.js"></script>
 			<script src="js/respond.min.js"></script>
@@ -40,11 +40,11 @@
 					<li class="clearfix">
 						<label class="tl">Patient name ：</label>
 						<input type="hidden" name="user_id" value="1" />
-						<input autocomplete="off" placeholder="Please enter the patient's name" type="text" value="boblooba" />
+						<input autocomplete="off" placeholder="Please enter the patient's name" type="text" value="boblooba" name="Pname" />
 					</li>
 					<li class="clearfix">
 						<label class="tl acc_five"> Date of birth：</label>
-						<input autocomplete="off" placeholder="Please enter the Date of birth" type="text" value="1966-11-05" />
+						<input autocomplete="off" placeholder="Please enter the Date of birth" type="text" value="1966-11-05" name="DOB" />
 					</li>
 					
 					<li class="clearfix" >
@@ -69,7 +69,7 @@
 								<input type="file" name="file0[]" id="file0" multiple class="ph08" />
 
 							</div>
-							<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 5M</p>
+							<p class="ph09 ">note: Please upload a photo of the outer packaging of the drug, and the text on the packaging must be clearly visible. Support jpg, jpeg, bmp, gif format photos. The size does not exceed 2M</p>
 						</div>
 					</li>
 					<li class="clearfix">
@@ -106,9 +106,7 @@
 					})
 					// ========================================Floating layer control
 				$("#tip .pack a").on("click", function() {
-					
 					$("#tip").fadeOut()
-					window.location.reload(true)
 					return false;
 				})
 			})

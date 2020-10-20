@@ -1,6 +1,7 @@
 // handle onChange events on image uploader
 $(function(){
     let allFiles = []
+    const baseURL = "http://localhost/projects/COMP3850"
 
     $("#file0").change(function() {
 
@@ -47,11 +48,10 @@ $(function(){
         
                             // add click event to each thumbnail wrapper
                             $(div).click(function(e) {
-        
-                                                           
+                                
                                 let objUrl = $(this).children()[1].src
-
                                 console.log('clicked', div)
+                                $('#img0').attr("src", objUrl)
         
                                 
                                 $('#preview_img0').data("source", objUrl)
@@ -73,10 +73,6 @@ $(function(){
                                 }
                                 
                             })
-
-                         
-
-                         // add thumbnail gallery wrapper styles 
 
                             // add thumbnail gallery wrapper styles 
                             $('#thumbnail-gallery-wrapper').css({
@@ -141,7 +137,7 @@ $(function(){
             let request = new XMLHttpRequest()
             
             // url needs to be changed after uploading files onto server 
-            request.open("POST", "http://localhost/projects/COMP3850/server/upload.php")
+            request.open("POST", baseURL+"/server/upload.php")
 
             // collect all the form data 
             let form = document.querySelector('#patient-form')
@@ -166,7 +162,7 @@ $(function(){
                 if( request.readyState == 4){
 
                     // clear all the inputs 
-                    $('input').val('')
+                    //$('input').val('')
                     $('textarea').val('')
                     allFiles = []
 
@@ -190,8 +186,122 @@ $(function(){
         }else{
             alerths("Your text message cannot be empty!")
         }
-        
+    
+    })
 
+    const formatDate = (unixTime) => {
+        let date = new Date(unixTime*1000)
+        let first = date.toLocaleDateString("en-GB")
+        let second = date.toLocaleTimeString("en-US")
+        return first+" "+second
+    } 
+
+    $('#staff-login').submit( (e) => {
+     
+        e.preventDefault()
+
+        // send ajax request 
+        let xhr = new XMLHttpRequest()
+
+        xhr.open("POST", baseURL+"/server/staff.php")
+
+        let data = new FormData(e.target)
+
+        xhr.send(data)
+
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === 4){
+                let data = JSON.parse(xhr.responseText)
+                console.log(data)
+
+                for(let i=0; i<data.length; i++){
+
+                    // display user info
+                    let userAccordin = document.createElement("div")
+                    userAccordin.id = "user-accordin"
+                    userAccordin.innerHTML = `<h2>${data[i].name} - ${data[i].dob}</h2>`
+
+                    let template = ""
+                    let list = data[i].list
+                    list.forEach(e => {
+                        let time = formatDate(e.timestamp)
+
+                        let button = document.createElement("button")
+                        button.textContent = "View Image"
+                        button.className = `view-image ${data[i].name}`
+                        button.dataset.timestamp = e.timestamp 
+
+                        template+= `<tr><td>${time}</td><td>${e.message}</td><td>${button.outerHTML}</td></tr>`
+                    })
+
+                    if($('#staff-login'))
+                        $('#staff-login').hide()
+
+                    $("#staff-body").append(`<div id="patient-info-wrapper">
+                                                ${userAccordin.outerHTML}
+                                                <table id="patients-table">
+                                                    <tr><th>Time</th><th>Message</th><th>View Image</th></tr>
+                                                    ${template}  
+                                                </table>
+                                        </div>`)
+
+                    for(let j = 0; j<$(`.view-image.${data[i].name}`).length; j++){
+                        
+                        $(`.view-image.${data[i].name}`)[j].addEventListener('click', (e) => {
+                            let time = e.target.dataset.timestamp
+                            console.log(time)
+    
+                            // send another xhr request
+                            let xhr = new XMLHttpRequest()
+                            let params = "id="+time+"&"+"name="+data[i].name
+                            xhr.open('GET', baseURL + "/server/staff.php?"+params)
+                    
+                            xhr.onreadystatechange = () => {
+                                if(xhr.readyState === 4){
+    
+                                    let data = JSON.parse(xhr.responseText) 
+                                    if(!data.error){  
+                                                
+                                        let template = ""
+                                        data.forEach(e => {
+                                            template+= `<div class="image-wrapper">
+                                                            <a class="fancybox" data-fancybox="gallery" href="${baseURL}/${e.url}">
+                                                                <img src="${baseURL}/${e.url}">
+                                                            </a>
+                                                        </div>` 
+                                        })
+    
+                                        $.fancybox.open(`
+                                                            <div id="images-popup-wrapper">
+                                                                
+                                                                    ${template}
+                                                                
+                                                            </div>
+                                                        `)
+                                    }else{
+                                        $.fancybox.open(data.error)
+                                    }
+                                    
+                                    $('.fancybox').fancybox({
+                                        // Options will go here
+                                        buttons: [
+                                            "zoom",
+                                            "close"
+                                        ]
+                                
+                                    })
+                                }
+                            }
+    
+                            xhr.send()
+    
+                        }) 
+                    }
+                }
+
+            }
+        }
 
     })
+
 })

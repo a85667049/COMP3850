@@ -7,15 +7,32 @@
         //echo "desc: ".$_POST["desc"];
         //echo "timestamp: ".$_POST["timestamp"];
         
-        if(isset($_POST["user_id"]) && isset($_POST["desc"]) && isset($_POST["timestamp"])){
-           $results = $mysqli -> query("SELECT * FROM `patients` WHERE user_id = {$_POST["user_id"]} ");
+        if(isset($_POST["Pname"]) && isset($_POST["desc"]) && isset($_POST["timestamp"])){
+           $results = $mysqli -> query("SELECT * FROM `patients` WHERE patient_name = '{$_POST["Pname"]}' ");
            $row = $results -> fetch_assoc();
-           $patient_id = $row["patient_id"];
-           $patient_name = $row["patient_name"];
-           //echo "\n".$patient_id." ".$row["patient_name"]."\n";
+           $patient_id = null;
+           $patient_name = null;
+           if($row!==null){
+            $patient_id = $row["patient_id"];
+            $patient_name = $row["patient_name"];
+            //echo "\n".$patient_id." ".$row["patient_name"]."\n";
+           }
+
            
-           if($patient_id){
-               
+           if($patient_id === null){
+               $sql ="INSERT INTO patients (patient_name, patient_dob) VALUES ('{$_POST["Pname"]}', '{$_POST["DOB"]}')";
+               if($mysqli -> query($sql) === TRUE){
+                    $sql ="SELECT MAX(patient_id) as patient_id, patient_name  FROM `patients` WHERE patient_name = '{$_POST["Pname"]}' ";
+                    $results = $mysqli -> query($sql);
+                    $row = $results -> fetch_assoc();
+                     //print_r($row);
+                    $patient_id = $row["patient_id"];
+                    $patient_name = $row["patient_name"];
+               }
+
+           }
+
+
                $sql = "INSERT INTO patient_uploads (patient_id, message, timestamp) VALUES ('{$patient_id}', '{$_POST["desc"]}', '{$_POST["timestamp"]}')";
                
                if($mysqli -> query($sql) === TRUE){
@@ -41,8 +58,7 @@
                }
                
            }
-        }
-
+          
     }else{
         die("Lost connection with database.");
     }
