@@ -2,7 +2,7 @@
 <?php 
     
     if(isset($_POST["psw"])){
-        if($_POST["psw"] === "kevin"){
+        if($_POST["psw"] === "GenesisCare"){
             // 10 patient records per page
             $sql = "SELECT * FROM patients LIMIT 10";
             $results = $mysqli -> query($sql);
